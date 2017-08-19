@@ -1,5 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Calendar, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should belong_to(:user) }
+  it { should have_many(:events).through(:calendars_events) }
 end
