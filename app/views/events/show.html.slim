@@ -1,0 +1,9 @@
+.well
+  p Title: #{@event.title}
+  p Description: #{@event.description}
+  p Satart date: #{@event.start_date}
+= link_to 'Edit event', edit_event_path, class: 'btn btn-primary'
+'
+= link_to 'Delete event', @event, method: :delete, class: 'btn btn-primary'
+'
+= link_to 'Share event', '#', class: 'btn btn-primary'

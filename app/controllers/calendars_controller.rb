@@ -4,4 +4,8 @@ class CalendarsController < ApplicationController
   def index
     @calendars = Calendar.all
   end
+
+  def show
+    @calendar = current_user.calendars.first
+  end
 end
