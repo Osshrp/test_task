@@ -2,7 +2,7 @@
   p Title: #{@event.title}
   p Description: #{@event.description}
   p Satart date: #{@event.start_date}
-- if @event.user == current_user
+- if current_user.author_of?(@event)
   .form-group
     = link_to 'Edit event', edit_event_path, class: 'btn btn-primary'
     '
