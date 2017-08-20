@@ -2,8 +2,16 @@
   p Title: #{@event.title}
   p Description: #{@event.description}
   p Satart date: #{@event.start_date}
-= link_to 'Edit event', edit_event_path, class: 'btn btn-primary'
-'
-= link_to 'Delete event', @event, method: :delete, class: 'btn btn-primary'
-'
-= link_to 'Share event', '#', class: 'btn btn-primary'
+- if @event.user == current_user
+  .form-group
+    = link_to 'Edit event', edit_event_path, class: 'btn btn-primary'
+    '
+    = link_to 'Delete event', @event, method: :delete, class: 'btn btn-primary'
+  .well
+    h4 Share this event with another user
+    p Please, enter user email:
+    = form_tag share_event_path, method: :patch
+      .form-group
+        = email_field_tag 'email', nil, class: 'form-control'
+      .form-group
+        = submit_tag 'Share event', class: 'btn btn-primary'

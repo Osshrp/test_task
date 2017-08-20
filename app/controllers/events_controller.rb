@@ -33,6 +33,11 @@ class EventsController < ApplicationController
     respond_with(@event.destroy)
   end
 
+  def share
+    @event = Event.find(params[:id])
+    @event.share(params[:email], @event)
+  end
+
   private
 
   def event_params
