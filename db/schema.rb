@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170819084804) do
+ActiveRecord::Schema.define(version: 20170820160639) do
 
   create_table "calendars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20170819084804) do
     t.integer "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "viewed"
   end
 
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

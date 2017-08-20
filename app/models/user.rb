@@ -9,6 +9,10 @@ class User < ApplicationRecord
 
   after_create :create_calendar
 
+  def author_of?(entity)
+    entity.user_id == id
+  end
+
   private
 
   def create_calendar
