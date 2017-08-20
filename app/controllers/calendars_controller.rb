@@ -6,6 +6,7 @@ class CalendarsController < ApplicationController
   end
 
   def show
-    @calendar = current_user.calendars.first
+    @calendar = Calendar.find(params[:id])
+    byebug
   end
 end
