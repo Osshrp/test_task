@@ -9,6 +9,27 @@ html
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    p.notice
-    p.alert
-    = yield
+    .navbar.navbar-default.navbar-static-top
+        .container
+          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          = link_to 'Home', root_path, class: 'navbar-brand'
+          .navbar-collapse.collapse.navbar-responsive-collapse
+            ul.nav.navbar-nav
+              - if user_signed_in?
+                li= link_to 'Events', events_path
+                li= link_to 'Sign out', destroy_user_session_path, method: :delete
+                li= link_to current_user.email, '#'
+              - else
+                li= link_to 'Sign in', new_user_session_path
+
+    .container
+      .row
+        .col-lg-9
+          = bootstrap_flash
+          = yield
+    / p.notice
+    / p.alert
+    / = yield
