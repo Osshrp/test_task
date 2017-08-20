@@ -6,4 +6,12 @@ class User < ApplicationRecord
 
   has_many :events
   has_many :calendars
+
+  after_create :create_calendar
+
+  private
+
+  def create_calendar
+    self.calendars.create
+  end
 end
