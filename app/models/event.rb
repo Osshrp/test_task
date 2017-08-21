@@ -5,19 +5,24 @@ class Event < ApplicationRecord
 
   validates :title, :start_date, presence: true
 
+  scope :count_unread_events, ->(user, calendar) { joins(:calendars_events)
+    .where('events.user_id <> ? AND
+            calendars_events.calendar_id = ? AND
+            calendars_events.is_read = ?',
+            user, calendar, false).count }
+
   def share(email)
     user = User.where(email: email).first
     calendar = user.calendars.first
     calendar.calendars_events.create(event: self)
   end
 
-  def read(calendar, event)
-    calendars_event = CalendarsEvent.where(calendar: calendar, event: event)
-    calendars_event(read: true)
-    calendars_event.save
+  def read(calendar)
+    calendars_event = CalendarsEvent.where(calendar: calendar, event: self).first
+    calendars_event.update(is_read: true)
   end
 
-  def is_read?(calendar, event)
-    CalendarsEvent.where(calendar: calendar, event: event).is_read
+  def is_read?(calendar)
+    CalendarsEvent.where(calendar: calendar, event: self).first.is_read
   end
 end

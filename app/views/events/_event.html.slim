@@ -2,4 +2,8 @@ li.list-group-item
   - if current_user.author_of?(event)
     = link_to event.title, event_path(event)
   - else
-    = link_to event.title, event_path(event), class: 'shared-event'
+    - if !event.is_read?(current_user.calendars.first)
+      = link_to event.title, event_path(event), class: 'shared-event'
+      span.badge unread
+    - else
+      = link_to event.title, event_path(event), class: 'shared-event'
