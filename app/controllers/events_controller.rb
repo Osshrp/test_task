@@ -1,12 +1,13 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :share]
 
   def index
     respond_with(@events = Event.all)
   end
 
   def show
-    @event = Event.find(params[:id])
+    @event.read(current_user.calendars.first)
   end
 
   def new
@@ -19,22 +20,19 @@ class EventsController < ApplicationController
   end
 
   def edit
-    respond_with(@event = Event.find(params[:id]))
+    respond_with(@event)
   end
 
   def update
-    @event = Event.find(params[:id])
     @event.update(event_params)
     respond_with(@event)
   end
 
   def destroy
-    @event = Event.find(params[:id])
     respond_with(@event.destroy)
   end
 
   def share
-    @event = Event.find(params[:id])
     @event.share(params[:email])
   end
 
@@ -42,5 +40,9 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:title, :description, :start_date)
+  end
+
+  def set_event
+    @event = Event.find(params[:id])
   end
 end
