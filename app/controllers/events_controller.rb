@@ -2,6 +2,8 @@ class EventsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_event, only: [:show, :edit, :update, :destroy, :share]
 
+  authorize_resource
+
   def index
     respond_with(@events = Event.all)
   end
