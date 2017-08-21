@@ -1,7 +1,11 @@
 FactoryGirl.define do
+  sequence :title do |n|
+    "Test title#{n}"
+  end
+
   factory :event do
     user
-    title "Test title"
+    title
     start_date "2017-08-19 11:31:45"
     end_date "2017-08-19 11:31:45"
   end
