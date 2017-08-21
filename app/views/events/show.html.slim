@@ -1,4 +1,5 @@
-.well
+.well.event
+  p Author: #{@event.user.email}
   p Title: #{@event.title}
   p Description: #{@event.description}
   p Start date: #{@event.start_date}
@@ -12,6 +13,7 @@
     p Please, enter user email:
     = form_tag share_event_path, method: :patch
       .form-group
+        = label_tag :email
         = email_field_tag 'email', nil, class: 'form-control'
       .form-group
         = submit_tag 'Share event', class: 'btn btn-primary'
