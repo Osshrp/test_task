@@ -35,7 +35,7 @@ class EventsController < ApplicationController
 
   def share
     @event = Event.find(params[:id])
-    @event.share(params[:email], @event)
+    @event.share(params[:email])
   end
 
   private
