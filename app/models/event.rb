@@ -21,7 +21,7 @@ class Event < ApplicationRecord
 
   def read(calendar)
     calendars_event = CalendarsEvent.where(calendar: calendar, event: self).first
-    calendars_event.update(is_read: true)
+    calendars_event.try(:update, is_read: true)
   end
 
   def is_read?(calendar)
