@@ -38,6 +38,7 @@ gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
 gem 'responders', '~> 2.0'
 gem 'devise'
+gem 'delayed_job_active_record'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

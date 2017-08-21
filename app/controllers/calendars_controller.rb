@@ -7,6 +7,5 @@ class CalendarsController < ApplicationController
 
   def show
     @calendar = Calendar.find(params[:id])
-    # @unread_events = Event.count_unread_events(current_user, @calendar)
   end
 end

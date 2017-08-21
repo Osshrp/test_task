@@ -11,6 +11,8 @@ class Event < ApplicationRecord
             calendars_events.is_read = ?',
             user, calendar, false).count }
 
+  scope :daily, -> { where('start_date < ?', 1.day.after) }
+
   def share(email)
     user = User.where(email: email).first
     calendar = user.calendars.first
@@ -23,6 +25,6 @@ class Event < ApplicationRecord
   end
 
   def is_read?(calendar)
-    CalendarsEvent.where(calendar: calendar, event: self).first.is_read
+    CalendarsEvent.where(calendar: calendar, event: self).first.try(:is_read)
   end
 end
