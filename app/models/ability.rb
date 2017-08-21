@@ -18,7 +18,7 @@ class Ability
     guest_abilities
     can :read, Calendar, user_id: @user.id
     can :read, Event do |event|
-      @user.calendars.first.id == event.calendars.find(@user.calendars.first.id).try(:id)
+      @user.calendars.last.id == event.calendars.find(@user.calendars.last.id).try(:id)
     end
     can :create, [Calendar, Event]
     can :update, Event, user_id: @user.id

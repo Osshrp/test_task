@@ -1,0 +1,7 @@
+h1 Daily#digest
+p = "Hi, this is a list of events for the day"
+
+ul
+  - @events.each do |event|
+    li
+      = link_to event.title, event_url(event)
