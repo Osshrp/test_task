@@ -5,19 +5,19 @@ class Event < ApplicationRecord
 
   validates :title, :start_date, presence: true
 
-  def share(email, event)
+  def share(email)
     user = User.where(email: email).first
     calendar = user.calendars.first
-    calendar.calendars_events.create(calendar: calendar, event: event, viewed: false)
+    calendar.calendars_events.create(event: self)
   end
 
-  def view(calendar, event)
+  def read(calendar, event)
     calendars_event = CalendarsEvent.where(calendar: calendar, event: event)
-    calendars_event(viewed: true)
+    calendars_event(read: true)
     calendars_event.save
   end
 
-  def is_viewed?(calendar, event)
-    CalendarsEvent.where(calendar: calendar, event: event).viewed
+  def is_read?(calendar, event)
+    CalendarsEvent.where(calendar: calendar, event: event).is_read
   end
 end

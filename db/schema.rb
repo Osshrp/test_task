@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20170820160639) do
     t.integer "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "viewed"
+    t.boolean "is_read", default: false
   end
 
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
