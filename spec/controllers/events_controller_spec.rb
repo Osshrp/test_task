@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe EventsController, type: :controller do
-  # let(:user) { create(:user) }
-  # let(:event) { create(:event, user: user) }
-  # let(:calendar_with_enents) { create(:calendar_with_enents, user: user) }
 
   describe 'GET #index' do
     let(:events) { create_list(:event, 2) }
@@ -33,9 +30,10 @@ RSpec.describe EventsController, type: :controller do
 
   describe 'GET #show' do
     sign_in_user
+    let(:calendar_with_events) { create(:calendar_with_events, user: @user) }
 
     before do
-      set_event
+      @event = calendar_with_events.events.first
       get :show, params: { id: @event }
     end
 
@@ -190,12 +188,5 @@ RSpec.describe EventsController, type: :controller do
     it 'share event with another user' do
       expect(user.calendars.first.events.first).to eq @user.events.first
     end
-  end
-
-  private
-
-  def set_event
-    calendar_with_events = create(:calendar_with_events, user: @user)
-    @event = calendar_with_events.events.first
   end
 end
