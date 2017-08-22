@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe EventsController, type: :controller do
-  let(:event) { create(:event) }
+  # let(:user) { create(:user) }
+  # let(:event) { create(:event, user: user) }
+  # let(:calendar_with_enents) { create(:calendar_with_enents, user: user) }
+
   describe 'GET #index' do
     let(:events) { create_list(:event, 2) }
 
@@ -28,148 +31,171 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
-  # describe 'GET #show' do
-  #   before { get :show, params: { id: question } }
-  #
-  #   it 'assigns requested question to @question' do
-  #     expect(assigns(:question)).to eq question
-  #   end
-  #
-  #   it 'renders show view' do
-  #     expect(response).to render_template :show
-  #   end
-  # end
-  #
-  # describe 'GET #new' do
-  #   sign_in_user
-  #   before { get :new }
-  #   it 'assigns a new Question to @question' do
-  #     expect(assigns(:question)).to be_a_new(Question)
-  #   end
-  #
-  #   it 'renders new view' do
-  #     expect(response).to render_template :new
-  #   end
-  # end
-  #
-  # describe 'POST #create' do
-  #   sign_in_user
-  #   context 'with valid attributes' do
-  #
-  #     it 'associates question with the user' do
-  #       expect { post :create, params: { question: attributes_for(:question) } }
-  #         .to change(@user.questions, :count).by(1)
-  #     end
-  #
-  #     it 'redirects to show view' do
-  #       post :create, params: { question: attributes_for(:question) }
-  #       expect(response).to redirect_to question_path(assigns(:question))
-  #     end
-  #   end
-  #
-  #   context 'with invalid attributes' do
-  #     it 'does not save the question' do
-  #       expect { post :create, params: { question: attributes_for(:invalid_question) } }
-  #         .to_not change(Question, :count)
-  #     end
-  #
-  #     it 're-renders new view' do
-  #       post :create, params: { question: attributes_for(:invalid_question) }
-  #       expect(response).to render_template :new
-  #     end
-  #   end
-  # end
-  #
-  # describe 'PATCH #update' do
-  #   sign_in_user
-  #   let!(:users_question) { create(:question, user: @user) }
-  #
-  #   context 'with valid attributes' do
-  #     it 'assigns the requested question to @question' do
-  #       patch :update, params: { id: users_question,
-  #         question: attributes_for(:question) }, format: :js
-  #       expect(assigns(:question)).to eq users_question
-  #     end
-  #
-  #     it 'change question attributes' do
-  #       patch :update, params: { id: users_question,
-  #         question: { title: 'new_title', body: 'new_body' } }, format: :js
-  #       users_question.reload
-  #       expect(users_question.title).to eq 'new_title'
-  #       expect(users_question.body).to eq 'new_body'
-  #     end
-  #
-  #     it 'redirects to updated @question' do
-  #       patch :update, params: { id: users_question,
-  #         question: attributes_for(:question) }, format: :js
-  #       expect(response).to render_template :update
-  #     end
-  #   end
-  #
-  #   context 'with invalid attributes' do
-  #     let(:title) { users_question.title }
-  #     let(:body) { users_question.body }
-  #     before do
-  #       patch :update, params: { id: users_question,
-  #         question: { title: 'new_title', body: nil } }, format: :js
-  #     end
-  #     it 'does not change @question attributes' do
-  #       users_question.reload
-  #       expect(users_question.title).to eq title
-  #       expect(users_question.body).to eq body
-  #     end
-  #
-  #     it 're-renders edit view' do
-  #       expect(response).to render_template :update
-  #     end
-  #   end
-  #
-  #   context 'user tries to update question that does not belong to him' do
-  #     let(:title) { question.title }
-  #     let(:body) { question.body }
-  #     before do
-  #       patch :update, params: { id: question,
-  #         question: { title: 'new_title', body: 'new_body' } }, format: :js
-  #     end
-  #     it 'does not update question attributes' do
-  #       question.reload
-  #       expect(question.title).to eq title
-  #       expect(question.body).to eq body
-  #     end
-  #
-  #     it 'returns 403 status' do
-  #       expect(response).to have_http_status(403)
-  #     end
-  #   end
-  # end
-  #
-  # describe 'DELETE #destroy' do
-  #   sign_in_user
-  #   let!(:users_question) { create(:question, user: @user) }
-  #   before { question }
-  #
-  #   context 'author tries to delete question' do
-  #     it 'deletes question' do
-  #       expect { delete :destroy, params: { id: users_question } }
-  #         .to change(Question, :count).by(-1)
-  #     end
-  #
-  #     it 'redirects to index view' do
-  #       delete :destroy, params: { id: users_question }
-  #       expect(response).to redirect_to questions_path
-  #     end
-  #   end
-  #
-  #   context 'user tries to delete question that does not belongs to him' do
-  #     it 'does not deletes question' do
-  #       expect { delete :destroy, params: { id: question } }
-  #         .to_not change(Question, :count)
-  #     end
-  #
-  #     it 'redirects to questions index view' do
-  #       delete :destroy, params: { id: question }
-  #       expect(response).to redirect_to questions_path
-  #     end
-  #   end
-  # end
+  describe 'GET #show' do
+    sign_in_user
+
+    before do
+      set_event
+      get :show, params: { id: @event }
+    end
+
+    it 'assigns requested event to @event' do
+      expect(assigns(:event)).to eq @event
+    end
+
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
+  end
+
+  describe 'GET #new' do
+    sign_in_user
+    before { get :new }
+    it 'assigns a new Event to @event' do
+      expect(assigns(:event)).to be_a_new(Event)
+    end
+
+    it 'renders new view' do
+      expect(response).to render_template :new
+    end
+  end
+
+  describe 'POST #create' do
+    sign_in_user
+    context 'with valid attributes' do
+
+      it 'associates event with the user' do
+        expect { post :create, params: { event: attributes_for(:event) } }
+          .to change(@user.events, :count).by(1)
+      end
+
+      it 'redirects to show view' do
+        post :create, params: { event: attributes_for(:event) }
+        expect(response).to redirect_to event_path(assigns(:event))
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not save the event' do
+        expect { post :create, params: { event: attributes_for(:invalid_event) } }
+          .to_not change(Event, :count)
+      end
+
+      it 're-renders new view' do
+        post :create, params: { event: attributes_for(:invalid_event) }
+        expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    sign_in_user
+    let!(:users_event) { create(:event, user: @user) }
+
+    context 'with valid attributes' do
+      it 'assigns the requested event to @event' do
+        patch :update, params: { id: users_event,
+          event: attributes_for(:event) }
+        expect(assigns(:event)).to eq users_event
+      end
+
+      it 'change event attributes' do
+        patch :update, params: { id: users_event,
+          event: { title: 'new_title', description: 'new_description' } }
+        users_event.reload
+        expect(users_event.title).to eq 'new_title'
+        expect(users_event.description).to eq 'new_description'
+      end
+
+      it 'redirects to updated @event' do
+        patch :update, params: { id: users_event, event: attributes_for(:event) }
+        expect(response).to redirect_to(assigns(:event))
+      end
+    end
+
+    context 'with invalid attributes' do
+      let(:title) { users_event.title }
+      let(:start_date) { users_event.start_date }
+      before do
+        patch :update, params: { id: users_event,
+          event: { title: 'new_title', start_date: nil } }
+      end
+      it 'does not change @event attributes' do
+        users_event.reload
+        expect(users_event.title).to eq title
+        expect(users_event.start_date).to eq start_date
+      end
+
+      it 're-renders edit view' do
+        expect(response).to render_template :edit
+      end
+    end
+
+    context 'user tries to update event that does not belong to him' do
+      let(:title) { event.title }
+      let(:start_date) { event.start_date }
+      let(:event) { create(:event) }
+      before do
+        patch :update, params: { id: event,
+          event: { title: 'new_title', start_date: '2017-12-01' } }
+      end
+      it 'does not update event attributes' do
+        event.reload
+        expect(event.title).to eq title
+        expect(event.start_date).to eq start_date
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    sign_in_user
+    let!(:users_event) { create(:event, user: @user) }
+    let(:event) { create(:event) }
+    before { event }
+
+    context 'author tries to delete event' do
+      it 'deletes event' do
+        expect { delete :destroy, params: { id: users_event } }
+          .to change(Event, :count).by(-1)
+      end
+
+      it 'redirects to index view' do
+        delete :destroy, params: { id: users_event }
+        expect(response).to redirect_to events_path
+      end
+    end
+
+    context 'user tries to delete event that does not belongs to him' do
+      it 'does not deletes event' do
+        expect { delete :destroy, params: { id: event } }
+          .to_not change(Event, :count)
+      end
+
+      it 'redirects to events index view' do
+        delete :destroy, params: { id: event }
+        expect(response).to redirect_to root_path
+      end
+    end
+  end
+
+  describe 'PATCH #share' do
+    sign_in_user
+    let(:calendar_with_events) { create(:calendar_with_events, user: @user) }
+    let!(:user) { create(:user) }
+
+    before do
+      patch :share, params: { id: calendar_with_events.events.first, email: user.email }
+    end
+
+    it 'share event with another user' do
+      expect(user.calendars.first.events.first).to eq @user.events.first
+    end
+  end
+
+  private
+
+  def set_event
+    calendar_with_events = create(:calendar_with_events, user: @user)
+    @event = calendar_with_events.events.first
+  end
 end
